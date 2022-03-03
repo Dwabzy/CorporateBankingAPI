@@ -12,7 +12,9 @@ public class CustomerController {
 
     @GetMapping("/customer")
     public Customer customer(@RequestParam(value="customerId", defaultValue = "0") String customerId,
-                             @RequestParam(value="customerName", defaultValue = "Bob") String customerName) {
+                             @RequestParam(value="customerName", defaultValue = "Bob") String customerName,
+                             @RequestParam(value="customerEmail", defaultValue = "bob@gmail.com") String customerEmail
+                            @RequestParam(value="customerPanNumber", defaultValue = "1A2B3C") String customerPan) {
         return new Customer(counter.incrementAndGet(), customerName);
     }
 }
