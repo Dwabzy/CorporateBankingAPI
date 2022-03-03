@@ -23,15 +23,15 @@ public class Customer {
         return customerName;
     }
 
-    public String getCustomerEmail(){
+    public String getCustomerEmail() {
         return customerEmail;
     }
 
-    public String getCustomerPanNumber(){
+    public String getCustomerPanNumber() {
         return customerPanNumber;
     }
 
-    public long getSalary(){
+    public long getSalary() {
         return salary;
     }
 
