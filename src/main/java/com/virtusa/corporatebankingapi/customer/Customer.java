@@ -1,8 +1,6 @@
 package com.virtusa.corporatebankingapi.customer;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -20,6 +18,26 @@ public class Customer {
     private String state;
     private String zipCode;
     private String dob;
+
+
+    public Customer(String firstName, String lastName, String email, String password, String phoneNumber, String address, String city, String state, String zipCode, String dob) {
+
+        this.customerId = UUID.randomUUID().toString();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.dob = dob;
+    }
+
+    public Customer() {
+        this.customerId = UUID.randomUUID().toString();
+    }
 
     public String getCustomerId() {
         return customerId;
@@ -107,18 +125,6 @@ public class Customer {
 
     public void setDob(String dob) {
         this.dob = dob;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public String getCustomerPanNumber() {
-        return customerPanNumber;
-    }
-
-    public long getSalary() {
-        return salary;
     }
 
 
