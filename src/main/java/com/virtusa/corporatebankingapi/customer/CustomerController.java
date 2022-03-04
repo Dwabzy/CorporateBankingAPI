@@ -1,20 +1,34 @@
 package com.virtusa.corporatebankingapi.customer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 
-@RestController
+@Controller
+@RequestMapping(path="/customer")
 public class CustomerController {
-    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    private CustomerRepository customerRepository;
 
-    @GetMapping("/customer")
-    public Customer customer(@RequestParam(value = "salary", defaultValue = "90") long salary,
-                             @RequestParam(value = "customerName", defaultValue = "") String customerName,
-                             @RequestParam(value = "customerEmail", defaultValue = "bob@gmail.com") String customerEmail,
-                             @RequestParam(value = "customerPanNumber", defaultValue = "1A2B3C") String customerPanNumber) {
-        return new Customer(counter.incrementAndGet(), customerName, customerEmail, customerPanNumber, salary);
+    @PostMapping(path="/signup")
+    public @ResponseBody String addNewUser(@RequestParam String firstName,
+                                           @RequestParam String lastName,
+                                           @RequestParam String email,
+                                           @RequestParam String password) {
+        Customer customer = new Customer();
+        customer.setCustomerId(UUID.randomUUID().toString());
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setEmail(email);
+        customer.setPassword(password);
+        customerRepository.save(customer);
+        return "Saved";
+    }
+
+    @GetMapping(path="/all")
+    public @ResponseBody Iterable<Customer> getAllUsers() {
+        return customerRepository.findAll();
     }
 }
