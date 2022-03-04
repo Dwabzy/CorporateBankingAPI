@@ -108,4 +108,18 @@ public class Customer {
     public void setDob(String dob) {
         this.dob = dob;
     }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public String getCustomerPanNumber() {
+        return customerPanNumber;
+    }
+
+    public long getSalary() {
+        return salary;
+    }
+
+
 }
