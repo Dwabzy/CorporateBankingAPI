@@ -1,18 +1,75 @@
 package com.virtusa.corporatebankingapi.customer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
+import java.util.UUID;
 
-@RestController
+@Controller
+@RequestMapping(path = "/customer")
 public class CustomerController {
-    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    private CustomerRepository customerRepository;
 
-    @GetMapping("/customer")
-    public Customer customer(@RequestParam(value="customerId", defaultValue = "0") String customerId,
-                             @RequestParam(value="customerName", defaultValue = "Bob") String customerName) {
-        return new Customer(counter.incrementAndGet(), customerName);
+    @PostMapping(path = "/signup")
+    public @ResponseBody
+    String addNewUser(@RequestParam String firstName,
+                      @RequestParam String lastName,
+                      @RequestParam String email,
+                      @RequestParam String password,
+                      @RequestParam String phoneNumber,
+                      @RequestParam String address,
+                      @RequestParam String city,
+                      @RequestParam String state,
+                      @RequestParam String zipCode,
+                      @RequestParam String dob) {
+
+        Customer customer = new Customer(firstName, lastName, email, password, phoneNumber, address, city, state, zipCode, dob);
+        customerRepository.save(customer);
+        return "Saved";
+    }
+
+
+    @GetMapping(path = "/all")
+    public @ResponseBody
+    Iterable<Customer> getAllUsers() {
+        return customerRepository.findAll();
+    }
+
+    @GetMapping(path = "/{id}")
+    public @ResponseBody
+    Customer getUser(@PathVariable String id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        return customer.orElse(null);
+
+    }
+
+    @PutMapping(path = "/{id}")
+    public @ResponseBody
+    String updateUser(@PathVariable UUID id,
+                      @RequestParam String firstName,
+                      @RequestParam String lastName,
+                      @RequestParam String email,
+                      @RequestParam String password,
+                      @RequestParam String phoneNumber,
+                      @RequestParam String address,
+                      @RequestParam String city,
+                      @RequestParam String state,
+                      @RequestParam String country,
+                      @RequestParam String zipCode,
+                      @RequestParam String dob,
+                      Customer customer) {
+        customerRepository.save(customer);
+        return "Saved";
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public @ResponseBody
+    String deleteUser(@PathVariable String id) {
+        customerRepository.deleteById(id);
+        return "Deleted";
     }
 }
