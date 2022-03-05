@@ -1,7 +1,9 @@
 package com.virtusa.corporatebankingapi.customer;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.UniqueConstraint;
 import java.util.UUID;
 
 @Entity
@@ -10,6 +12,7 @@ public class Customer {
     private String customerId;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
     private String phoneNumber;

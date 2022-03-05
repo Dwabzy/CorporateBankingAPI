@@ -1,9 +1,13 @@
 package com.virtusa.corporatebankingapi.customer;
 
-import org.springframework.beans.factory.ObjectProvider;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,7 +20,7 @@ public class CustomerController {
 
     @PostMapping(path = "/signup")
     public @ResponseBody
-    String addNewUser(@RequestParam String firstName,
+    ResponseEntity<String> addNewUser(@RequestParam String firstName,
                       @RequestParam String lastName,
                       @RequestParam String email,
                       @RequestParam String password,
@@ -25,11 +29,15 @@ public class CustomerController {
                       @RequestParam String city,
                       @RequestParam String state,
                       @RequestParam String zipCode,
-                      @RequestParam String dob) {
-
-        Customer customer = new Customer(firstName, lastName, email, password, phoneNumber, address, city, state, zipCode, dob);
-        customerRepository.save(customer);
-        return "Saved";
+                      @RequestParam String dob) throws ConstraintViolationException {
+        try {
+            Customer customer = new Customer(firstName, lastName, email, password, phoneNumber, address, city, state, zipCode, dob);
+            customerRepository.save(customer);
+        } catch (DataIntegrityViolationException e) {
+            // Create new response entity with conflict status
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("User added successfully");
     }
 
 
