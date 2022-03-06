@@ -71,7 +71,7 @@ public class CustomerController {
                       @RequestParam String dob,
                       Customer customer) {
         customerRepository.save(customer);
-        return "Saved";
+        return "Updated";
     }
 
     @DeleteMapping(path = "/{id}")

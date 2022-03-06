@@ -1,9 +1,8 @@
 package com.virtusa.corporatebankingapi.customer;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.UniqueConstraint;
+import com.virtusa.corporatebankingapi.account.Account;
+
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +20,9 @@ public class Customer {
     private String state;
     private String zipCode;
     private String dob;
+
+
+
 
 
     public Customer(String firstName, String lastName, String email, String password, String phoneNumber, String address, String city, String state, String zipCode, String dob) {
