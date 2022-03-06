@@ -26,7 +26,7 @@ along with few dependencies for developing the API.
 <div align="center">
 <h3>Work Done By</h3>
 <marquee behavior="scroll" direction="up" scrollamount="4" ><center>
-<b>Pragadeesh J S</b> <br>
+<b>Dwabzy</b> <br>
 <b>Nitinmano K</b> <br>
 <b>Velan K </b> <br>
 <b>Prajeshwar V </b> <br>
